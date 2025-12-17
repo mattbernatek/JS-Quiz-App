@@ -1,3 +1,4 @@
+// Connecting HTML elements to JavaScript
 const quizContainer = document.getElementById("quiz-container");
 const questionContainer = document.getElementById("question-container");
 const optionsContainer = document.getElementById("options-container");
@@ -8,10 +9,11 @@ const scoreContainer = document.getElementById("score-container");
 const scoreElement = document.getElementById("score");
 const restartButton = document.getElementById("restart-button");
 
+// a variable containing an array of objects with data for every question of the quiz i.e. the question, possible answers, and the correct answer. 
 const quizData = [
     {
         question: "Inside which HTML element do we put the JavaScript?",
-        options: ["javascipt", "scripting", "script", "js"],
+        options: ["javascript", "scripting", "script", "js"],
         answer: 2
     },
 
@@ -23,7 +25,7 @@ const quizData = [
 
     {
         question: "How do you write 'Hello World' in an alert box?",
-        options: ["msg('Hello World');", "msgBox('Hello World');", "alert('Hellow World');", "alertBox('Hello World');"],
+        options: ["msg('Hello World');", "msgBox('Hello World');", "alert('Hello World');", "alertBox('Hello World');"],
         answer: 2
     },
 
@@ -42,7 +44,10 @@ const quizData = [
 nextButton.addEventListener("click", nextQuestion);
 restartButton.addEventListener("click", restartQuiz);
 
+// Variable used to track the question the player is currently on
 let currentQuestionIndex = 0;
+
+// Variabled used for tracking score
 let score = 0;
 
 function loadQuestion() {
@@ -67,18 +72,18 @@ function loadQuestion() {
 
 
 function selectOption(selectedIndex) {
-    // Declare a variable correctIndex that will correspond to the correct answer for the loaded question
+    // A variable that corresponds to the correct answer for the loaded question
     let correctIndex = quizData[currentQuestionIndex].answer;
     
-    // Get a list of all option buttons inside optionsContainer as a list using querySelectorAll that selects all nodes of a specified type within the selected conatiner. Each button corresponds to an answer at the same index in quizzData.answer
+    // Grabbing a list of all buttons created in the loadQuestion function.
     let buttons = optionsContainer.querySelectorAll("button");
     
-    // Diable all option buttons (grey them out)
+    // Diabling all option buttons (greying them out) and adding a new class to each button to apply styling
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].disabled = true;
         buttons[i].classList.add("disabled");
     }
-    // Color the correct button green
+    // Coloring the correct button green
     buttons[correctIndex].style.backgroundColor = "green";
 
     // If selectedIndex isn't correctIndex, color the selected button red
@@ -88,17 +93,16 @@ function selectOption(selectedIndex) {
         score++;
     }
 
-    
-
     // Enable the Next button
     nextButton.disabled = false;
 }
 
 
 function nextQuestion() {
-    
+    // Updating the question index to ensure the right question is displayed
     currentQuestionIndex++;
     
+    // logic for deciding whether to load the next question or hide the quizContainer, show the scoreContainer and display the result
     if (currentQuestionIndex < quizData.length) {
         loadQuestion();
     } else {
@@ -108,10 +112,11 @@ function nextQuestion() {
     }
 }
 
+// A function to reset everything and start from scratch
 function restartQuiz() {
     currentQuestionIndex = 0;
     score = 0;
-    nextButton.innerHTML = "Next question";
+    nextButton.textContent = "Next question";
     quizContainer.classList.remove("hidden");
     scoreContainer.classList.add("hidden");
     loadQuestion();
